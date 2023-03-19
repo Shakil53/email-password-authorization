@@ -25,15 +25,19 @@ function App() {
     console.log(email, password);
 
     if (!/(?=.*?[A-Z])/.test(password)) {
-      setPasswordError('Please Provide at least one upperCase Character')
+      setPasswordError('Please Provide at least one upperCase Character*')
+      return;
+    }
+    if (/(?=.*?[0-9])/.test(password)) {
+      setPasswordError('Please Provide at least one number*')
       return;
     }
     if (password.length < 6) {
-      setPasswordError('Password Should be 6 character')
+      setPasswordError('Password Should be 6 character*')
       return;
     }
     if (!/(?=.*?[#?!@$%^&*-])/.test(password)) {
-      setPasswordError('Please provide At least one special character')
+      setPasswordError('Please provide At least one special character*')
       return;
     }
     setPasswordError('')
