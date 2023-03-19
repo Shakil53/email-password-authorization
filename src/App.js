@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import './App.css';
 import app from "./Firebase/Firebase.init";
 
@@ -7,25 +7,29 @@ const auth = getAuth(app);
 
 const handleRegister = (event) => {
   event.preventDefault();
-  const email = event.target.email.value;
-  const password = event.target.password.value;
+  const form = event.target;
+  const email = form.email.value;
+  const password = form.password.value;
   console.log(email, password);
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(result => {
+      const user = result.user;
+      console.log(user);
+    })
+    .catch(error => {
+      console.error('error', error)
+    })
 }
 
-const handleEmailChange = (event) => {
-  console.log(event.target.value)
-}
-const handlePassword = (event) => {
-  console.log(event.target.value)
-}
+
 
 function App() {
   return (
     <div className="App">
       <form onSubmit={handleRegister}>
-        <input onBlur={handleEmailChange} type="email" name="email" placeholder="Your Email"></input>
+        <input type="email" name="email" placeholder="Your Email"></input>
         <br></br>
-        <input onBlur={handlePassword} type="password" name="password" placeholder="Your Password"></input>
+        <input type="password" name="password" placeholder="Your Password"></input>
         <br></br>
         <button type="submit">Register</button>
       </form>
