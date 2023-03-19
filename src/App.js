@@ -13,10 +13,12 @@ const auth = getAuth(app);
 
 function App() {
   const [passwordError, setPasswordError] = useState('');
+  const [success, setSuccess] = useState(false);
 
 
   const handleRegister = (event) => {
     event.preventDefault();
+    setSuccess(false)
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
@@ -40,9 +42,12 @@ function App() {
       .then(result => {
         const user = result.user;
         console.log(user);
+        setSuccess(true)
+        form.reset()
       })
       .catch(error => {
         console.error('error', error)
+        setPasswordError(error.message)
       })
   }
   return (
@@ -53,6 +58,7 @@ function App() {
         <input type="password" name="password" placeholder="Your Password" required></input>
         <br></br>
         <small><p>{passwordError}</p></small>
+        {success && <p>User created Successfully</p>}
         <button type="submit">Register</button>
 
       </form>
